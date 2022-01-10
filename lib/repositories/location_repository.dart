@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:my_weather_app/models/models.dart';
@@ -64,7 +65,7 @@ class LocationRepository {
     const String _path = '/geo/1.0/direct';
 
     final _queryParameters = {
-      "q": q,
+      "q": q.toLowerCase(),
       "limit": limit.toString(),
       "appid": _appid,
     };

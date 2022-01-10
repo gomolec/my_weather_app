@@ -7,7 +7,7 @@ abstract class SearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
-abstract class SearchQueried extends SearchEvent {
+class SearchQueried extends SearchEvent {
   final String querry;
 
   const SearchQueried({
@@ -18,7 +18,7 @@ abstract class SearchQueried extends SearchEvent {
   List<Object> get props => [querry];
 }
 
-abstract class SearchLocate extends SearchEvent {
+class SearchLocate extends SearchEvent {
   const SearchLocate();
 
   @override

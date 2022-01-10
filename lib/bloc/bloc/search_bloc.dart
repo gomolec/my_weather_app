@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:my_weather_app/models/location.dart';
@@ -24,6 +25,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           await _locationRepository.getNamedLocation(q: event.querry);
       emit(state.copyWith(responce: responce));
     } catch (error) {
+      debugPrint("$error");
       emit(state.copyWith(error: error.toString()));
     }
   }
@@ -37,6 +39,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       );
       emit(state.copyWith(responce: [responce]));
     } catch (error) {
+      debugPrint("Error: $error");
       emit(state.copyWith(error: error.toString()));
     }
   }
