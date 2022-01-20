@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
 import 'package:my_weather_app/repositories/location_repository.dart';
+import 'package:my_weather_app/screens/search_screen/search_screen.dart';
 import 'package:my_weather_app/screens/welcome_screen/welcome_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
         title: 'Weather App',
-        home: WelcomeScreen(),
+        home: SearchScreen(),
       ),
     );
   }
