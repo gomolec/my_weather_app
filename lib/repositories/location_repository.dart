@@ -64,7 +64,7 @@ class LocationRepository {
     const String _path = '/geo/1.0/direct';
 
     final _queryParameters = {
-      "q": q,
+      "q": q.toLowerCase(),
       "limit": limit.toString(),
       "appid": _appid,
     };

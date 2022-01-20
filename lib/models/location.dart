@@ -19,7 +19,6 @@ class Location extends Equatable {
     double? lat,
     double? lon,
     String? country,
-    String? zipcode,
   }) {
     return Location(
       name: name ?? this.name,
@@ -31,7 +30,7 @@ class Location extends Equatable {
 
   factory Location.fromMap(Map<String, dynamic>? map, String lang) {
     return Location(
-      name: map?['local_names'][lang] ?? map?['name'].toString(),
+      name: map?['local_names']?[lang] ?? map?['name'].toString(),
       lat: map?['lat'].toDouble(),
       lon: map?['lon'].toDouble(),
       country: map?['country'].toString(),
