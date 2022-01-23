@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_weather_app/models/location.dart';
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -19,35 +22,22 @@ class SearchScreen extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Container(
-                height: 36,
-                alignment: Alignment.bottomLeft,
-                child: const Text(
-                  'Favorite:',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Color(0xFF3C3A3A),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            const LocationTile(
-              title: 'Warszawa',
-              subtitle: 'Wielkopolska, Polska',
-              isFavorite: true,
-            ),
-            const LocationTile(
-              title: 'Kraków',
-              subtitle: 'Małopolska, Polska',
-              isFavorite: true,
-            ),
-            const LocationTile(
-              title: 'Katowice',
-              subtitle: 'Śląsk, Polska',
-              isFavorite: true,
+            BlocBuilder<SearchBloc, SearchState>(
+              builder: (context, state) {
+                if (state.responce.isNotEmpty) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.responce.length,
+                    itemBuilder: (context, index) {
+                      return LocationTile(
+                        location: state.responce[index],
+                        isFavorite: false,
+                      );
+                    },
+                  );
+                }
+                return const FavoriteLocations();
+              },
             ),
           ],
         ),
@@ -56,70 +46,131 @@ class SearchScreen extends StatelessWidget {
   }
 }
 
+class FavoriteLocations extends StatelessWidget {
+  const FavoriteLocations({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+          child: Container(
+            height: 36,
+            alignment: Alignment.bottomLeft,
+            child: const Text(
+              'Favorite:',
+              style: TextStyle(
+                fontSize: 24,
+                color: Color(0xFF3C3A3A),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+        const LocationTile(
+          location: Location(
+            name: "Warszawa",
+            lat: 15,
+            lon: 15,
+            country: "Polska",
+          ),
+          isFavorite: true,
+        ),
+        const LocationTile(
+          location: Location(
+            name: "Kraków",
+            lat: 15,
+            lon: 15,
+            country: "Polska",
+          ),
+          isFavorite: true,
+        ),
+        const LocationTile(
+          location: Location(
+            name: "Katowice",
+            lat: 15,
+            lon: 15,
+            country: "Polska",
+          ),
+          isFavorite: true,
+        ),
+      ],
+    );
+  }
+}
+
 class LocationTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
+  final Location location;
   final bool isFavorite;
 
   const LocationTile({
     Key? key,
-    required this.title,
-    required this.subtitle,
+    required this.location,
     required this.isFavorite,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 64,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          color: Color(0xFF3C3A3A),
-                          fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: () {
+        context
+            .read<SearchBloc>()
+            .add(SearchLocationSubmitted(location: location));
+      },
+      child: Container(
+        height: 64,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          location.name.toString(),
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Color(0xFF3C3A3A),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Text(
-                        subtitle,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Color(0xAA3C3A3A),
-                          fontWeight: FontWeight.w600,
+                        Text(
+                          location.country.toString(),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Color(0xAA3C3A3A),
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    isFavorite
-                        ? LineAwesomeIcons.heart_1
-                        : LineAwesomeIcons.heart,
-                    size: 32,
-                    color: const Color(0xFF3C3A3A),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      isFavorite
+                          ? LineAwesomeIcons.heart_1
+                          : LineAwesomeIcons.heart,
+                      size: 32,
+                      color: const Color(0xFF3C3A3A),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const Divider(
-            height: 1,
-            color: Color(0xFF3C3A3A),
-          ),
-        ],
+            const Divider(
+              height: 1,
+              color: Color(0xFF3C3A3A),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -144,11 +195,16 @@ class SearchBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Expanded(
+              Expanded(
                 child: TextField(
+                  onChanged: (value) {
+                    context
+                        .read<SearchBloc>()
+                        .add(SearchLocationQueried(querry: value));
+                  },
                   style: textstyle,
-                  cursorColor: Color(0xFF3C3A3A),
-                  decoration: InputDecoration(
+                  cursorColor: const Color(0xFF3C3A3A),
+                  decoration: const InputDecoration(
                     hintText: 'Search location...',
                     border: InputBorder.none,
                   ),
@@ -172,24 +228,4 @@ class SearchBar extends StatelessWidget {
       ),
     );
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Container(
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-  //       child: TextFormField(
-  //         style: textstyle,
-  //         cursorColor: const Color(0xFF3C3A3A),
-  //         decoration: const InputDecoration(
-  //           floatingLabelStyle: textstyle,
-  //           labelStyle: textstyle,
-  //           focusedBorder: border,
-  //           enabledBorder: border,
-  //           border: border,
-  //           labelText: 'Search location...',
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
