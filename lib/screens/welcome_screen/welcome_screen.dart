@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -31,7 +33,11 @@ class WelcomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context
+                        .read<SearchBloc>()
+                        .add(const SearchGeolocationStarted());
+                  },
                   child: const Text(
                     'Turn on Location',
                     style: TextStyle(
@@ -51,9 +57,11 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/search_screen');
+                  },
                   child: const Text(
-                    'Turn on Location',
+                    'Select a city',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
