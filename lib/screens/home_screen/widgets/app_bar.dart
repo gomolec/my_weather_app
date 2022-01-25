@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const CustomAppBar({
     Key? key,
     required this.title,
   }) : super(key: key);
-
-  @override
-  Size get preferredSize => const Size.fromHeight(96);
 
   @override
   Widget build(BuildContext context) {
@@ -55,4 +52,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       ],
     );
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

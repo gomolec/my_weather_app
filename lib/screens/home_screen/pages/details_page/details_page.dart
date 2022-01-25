@@ -6,25 +6,19 @@ class DetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const DetailsMainText(
+        children: const [
+          SizedBox(height: 32.0),
+          DetailsMainText(
             feelsTemp: -1.2,
             sunrise: "7:16",
             sunset: "15:29",
           ),
-          const SizedBox(height: 16.0),
-          SizedBox(
-            height: (MediaQuery.of(context).size.height / 2).roundToDouble(),
-            //TODO Add information this is scrollable object
-            child: const SingleChildScrollView(
-              child: DetailsTable(),
-            ),
-          ),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0),
+          DetailsTable(),
         ],
       ),
     );

@@ -30,23 +30,25 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFB9A8A1),
       appBar: const CustomAppBar(title: "Location"),
-      body: Stack(
-        alignment: Alignment.bottomCenter,
+      body: Column(
         children: [
-          PageView(
-            onPageChanged: (index) {
-              currentIndexPage.value = index;
-            },
-            children: _pages,
+          Expanded(
+            child: PageView(
+              onPageChanged: (index) {
+                currentIndexPage.value = index;
+              },
+              children: _pages,
+            ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.all(4.0),
             child: ValueListenableBuilder(
               valueListenable: currentIndexPage,
               builder: (context, int _currentIndexPage, child) {
                 return DotsIndicator(
-                    dotsCount: _pages.length,
-                    position: _currentIndexPage.toDouble());
+                  dotsCount: _pages.length,
+                  position: _currentIndexPage.toDouble(),
+                );
               },
             ),
           ),
