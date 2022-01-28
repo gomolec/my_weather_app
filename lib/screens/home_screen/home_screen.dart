@@ -1,6 +1,8 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+
 import 'package:my_weather_app/screens/home_screen/widgets/app_bar.dart';
+
 import 'pages/pages.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,6 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 return DotsIndicator(
                   dotsCount: _pages.length,
                   position: _currentIndexPage.toDouble(),
+                  decorator: const DotsDecorator(
+                    activeColor: Colors.black,
+                  ),
                 );
               },
             ),
