@@ -6,6 +6,8 @@ import 'package:my_weather_app/screens/search_screen/search_screen.dart';
 import 'package:my_weather_app/screens/welcome_screen/welcome_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'screens/home_screen/home_screen.dart';
+
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -22,10 +24,11 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        initialRoute: '/',
+        initialRoute: '/home_screen',
         routes: {
-          '/': (context) => const WelcomeScreen(),
+          '/welcome_screen': (context) => const WelcomeScreen(),
           '/search_screen': (context) => const SearchScreen(),
+          '/home_screen': (context) => const HomeScreen(),
         },
         title: 'Weather App',
       ),
