@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/forecast_cubit/forecast_cubit.dart';
+import 'package:my_weather_app/bloc/search_bloc/search_bloc.dart';
+import 'package:my_weather_app/repositories/forecast_repository.dart';
 import 'package:my_weather_app/repositories/location_repository.dart';
 import 'package:my_weather_app/screens/search_screen/search_screen.dart';
 import 'package:my_weather_app/screens/welcome_screen/welcome_screen.dart';
@@ -16,15 +18,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocationRepository locationRepository = LocationRepository();
-    return BlocProvider(
-      create: (context) => SearchBloc(locationRepository),
+    final ForecastRepository forecastRepository = ForecastRepository();
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => SearchBloc(locationRepository),
+        ),
+        BlocProvider(
+          create: (context) => ForecastCubit(
+              forecastRepository, BlocProvider.of<SearchBloc>(context)),
+        ),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           textTheme: GoogleFonts.workSansTextTheme(
             Theme.of(context).textTheme,
           ),
         ),
-        initialRoute: '/home_screen',
+        initialRoute: '/welcome_screen',
         routes: {
           '/welcome_screen': (context) => const WelcomeScreen(),
           '/search_screen': (context) => const SearchScreen(),

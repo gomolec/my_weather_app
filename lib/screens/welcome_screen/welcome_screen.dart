@@ -1,81 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/search_bloc/search_bloc.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFB9A8A1),
-      extendBodyBehindAppBar: true,
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(96),
-      //   child: AppBar(
-      //     systemOverlayStyle:
-      //         const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      //     backgroundColor: Colors.transparent,
-      //     elevation: 0,
-      //   ),
-      // ),
-      body: Column(
-        children: [
-          Flexible(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: const WelcomeText(),
+    return BlocListener<SearchBloc, SearchState>(
+      listener: (context, state) {
+        if (state is LocationLoaded) {
+          Navigator.pushReplacementNamed(context, '/home_screen');
+        }
+      },
+      child: Scaffold(
+        backgroundColor: const Color(0xFFB9A8A1),
+        extendBodyBehindAppBar: true,
+        // appBar: PreferredSize(
+        //   preferredSize: const Size.fromHeight(96),
+        //   child: AppBar(
+        //     systemOverlayStyle:
+        //         const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        //     backgroundColor: Colors.transparent,
+        //     elevation: 0,
+        //   ),
+        // ),
+        body: Column(
+          children: [
+            Flexible(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                child: const WelcomeText(),
+              ),
             ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton(
-                  onPressed: () {
-                    context
-                        .read<SearchBloc>()
-                        .add(const SearchGeolocationStarted());
-                  },
-                  child: const Text(
-                    'Turn on Location',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF3C3A3A),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      context
+                          .read<SearchBloc>()
+                          .add(const SearchGeolocationStarted());
+                    },
+                    child: const Text(
+                      'Turn on Location',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF3C3A3A),
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      side: const BorderSide(
+                        color: Color(0xFF3C3A3A),
+                        width: 3.0,
+                      ),
+                      fixedSize: const Size(200, 48),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    shape: const StadiumBorder(),
-                    side: const BorderSide(
-                      color: Color(0xFF3C3A3A),
-                      width: 3.0,
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/search_screen');
+                    },
+                    child: const Text(
+                      'Select a city',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF3C3A3A),
+                      ),
                     ),
-                    fixedSize: const Size(200, 48),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/search_screen');
-                  },
-                  child: const Text(
-                    'Select a city',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF3C3A3A),
+                    style: TextButton.styleFrom(
+                      fixedSize: const Size(200, 48),
                     ),
                   ),
-                  style: TextButton.styleFrom(
-                    fixedSize: const Size(200, 48),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

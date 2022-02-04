@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -41,6 +42,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         lon: geolocation.longitude,
       );
       debugPrint(responce.toString());
+      emit(LocationLoaded(location: responce));
     } catch (error) {
       debugPrint("Error: $error");
       emit(state.copyWith(error: error.toString()));
@@ -49,11 +51,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   void _onSearchLocationSubmitted(
       SearchLocationSubmitted event, Emitter<SearchState> emit) async {
-    _submitLocation(event.location);
-  }
-
-  void _submitLocation(Location location) {
-    debugPrint(location.toString());
+    emit(LocationLoaded(location: event.location));
   }
 
   Future<Position> _determinePosition() async {

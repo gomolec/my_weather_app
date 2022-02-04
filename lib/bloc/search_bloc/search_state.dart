@@ -22,3 +22,14 @@ class SearchState extends Equatable {
   @override
   List<Object?> get props => [error, responce];
 }
+
+class LocationLoaded extends SearchState {
+  final Location location;
+
+  const LocationLoaded({
+    required this.location,
+  });
+
+  @override
+  List<Object?> get props => [location];
+}

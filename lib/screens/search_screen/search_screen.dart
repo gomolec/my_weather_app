@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/search_bloc/search_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather_app/models/location.dart';
 
