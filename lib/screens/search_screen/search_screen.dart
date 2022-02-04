@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:my_weather_app/bloc/search_bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather_app/models/location.dart';
 
@@ -10,7 +10,6 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFB9A8A1),
       extendBodyBehindAppBar: true,
       body: SafeArea(
         child: Column(
@@ -22,7 +21,7 @@ class SearchScreen extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            BlocBuilder<SearchBloc, SearchState>(
+            BlocBuilder<LocationBloc, LocationState>(
               builder: (context, state) {
                 if (state is LocationQuerried) {
                   return ListView.builder(
@@ -60,13 +59,9 @@ class FavoriteLocations extends StatelessWidget {
           child: Container(
             height: 36,
             alignment: Alignment.bottomLeft,
-            child: const Text(
+            child: Text(
               'Favorite:',
-              style: TextStyle(
-                fontSize: 24,
-                color: Color(0xFF3C3A3A),
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.headline5,
             ),
           ),
         ),
@@ -116,9 +111,7 @@ class LocationTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context
-            .read<SearchBloc>()
-            .add(SearchLocationSubmitted(location: location));
+        context.read<LocationBloc>().add(LocationSubmitted(location: location));
       },
       child: Container(
         height: 64,
@@ -135,19 +128,11 @@ class LocationTile extends StatelessWidget {
                       children: [
                         Text(
                           location.name.toString(),
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: Color(0xFF3C3A3A),
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.headline6,
                         ),
                         Text(
                           location.country.toString(),
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xAA3C3A3A),
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
                       ],
                     ),
@@ -159,7 +144,6 @@ class LocationTile extends StatelessWidget {
                           ? LineAwesomeIcons.heart_1
                           : LineAwesomeIcons.heart,
                       size: 32,
-                      color: const Color(0xFF3C3A3A),
                     ),
                   ),
                 ],
@@ -167,7 +151,6 @@ class LocationTile extends StatelessWidget {
             ),
             const Divider(
               height: 1,
-              color: Color(0xFF3C3A3A),
             ),
           ],
         ),
@@ -183,11 +166,6 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const TextStyle textstyle = TextStyle(
-      fontSize: 24,
-      color: Color(0xFF3C3A3A),
-      fontWeight: FontWeight.w600,
-    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -199,10 +177,10 @@ class SearchBar extends StatelessWidget {
                 child: TextField(
                   onChanged: (value) {
                     context
-                        .read<SearchBloc>()
-                        .add(SearchLocationQueried(querry: value));
+                        .read<LocationBloc>()
+                        .add(LocationQueried(querry: value));
                   },
-                  style: textstyle,
+                  style: Theme.of(context).textTheme.subtitle1,
                   cursorColor: const Color(0xFF3C3A3A),
                   decoration: const InputDecoration(
                     hintText: 'Search location...',
@@ -215,14 +193,12 @@ class SearchBar extends StatelessWidget {
                 icon: const Icon(
                   LineAwesomeIcons.search,
                   size: 32,
-                  color: Color(0xFF3C3A3A),
                 ),
               ),
             ],
           ),
           const Divider(
             height: 1,
-            color: Color(0xFF3C3A3A),
           ),
         ],
       ),

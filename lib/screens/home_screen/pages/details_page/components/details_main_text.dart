@@ -18,15 +18,11 @@ class DetailsMainText extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             "Details for Today:",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.headline5,
           ),
         ),
         Padding(
@@ -40,33 +36,24 @@ class DetailsMainText extends StatelessWidget {
                 children: [
                   Text(
                     "${feelsTemp.round()}°",
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5!
+                        .copyWith(fontSize: 52),
                   ),
                   const SizedBox(height: 8.0),
-                  const Text(
+                  Text(
                     "Feels Like",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.headline6,
                   ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  Text(
                     "Sunrise/Sunset",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                   const SizedBox(height: 8.0),
                   Row(
@@ -77,11 +64,7 @@ class DetailsMainText extends StatelessWidget {
                       ),
                       Text(
                         sunrise,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                       const SizedBox(width: 16.0),
                       const Icon(
@@ -90,11 +73,7 @@ class DetailsMainText extends StatelessWidget {
                       ),
                       Text(
                         sunset,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: Theme.of(context).textTheme.headline6,
                       ),
                     ],
                   )

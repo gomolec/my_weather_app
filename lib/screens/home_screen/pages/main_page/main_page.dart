@@ -1,6 +1,4 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:my_weather_app/extensions.dart';
 import 'package:my_weather_app/models/forecast.dart';
 import 'package:my_weather_app/models/models.dart';
@@ -26,8 +24,8 @@ class MainPage extends StatelessWidget {
             timeBefore: '18:00',
           ),
           MainForecastText(
-            weekDay: forecast.current.dt!.getWeekdayString().capitalize(),
-            forecastText: forecast.current.weather.description!.capitalize(),
+            weekDay: forecast.current.dt!.getWeekdayString(),
+            forecastText: forecast.current.weather.description!,
             temp: forecast.current.temp ?? 0.0,
           ),
           Column(
@@ -35,9 +33,9 @@ class MainPage extends StatelessWidget {
               6,
               (index) => Builder(
                 builder: (context) {
-                  Daily dailyForecast = forecast.daily[index];
+                  Daily dailyForecast = forecast.daily[index + 1];
                   return ForecastTableTile(
-                    weekDay: dailyForecast.dt!.getWeekdayString().capitalize(),
+                    weekDay: dailyForecast.dt!.getWeekdayString(),
                     icon: getIcon(dailyForecast.weather.icon ?? ""),
                     maxTemp: dailyForecast.temp.max ?? 0.0,
                     minTemp: dailyForecast.temp.min ?? 0.0,

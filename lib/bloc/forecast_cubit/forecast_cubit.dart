@@ -1,10 +1,7 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
-
-import 'package:my_weather_app/bloc/search_bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
 import 'package:my_weather_app/models/models.dart';
 import 'package:my_weather_app/repositories/forecast_repository.dart';
 
@@ -12,16 +9,15 @@ part 'forecast_state.dart';
 
 class ForecastCubit extends Cubit<ForecastState> {
   final ForecastRepository _forecastRepository;
-  final SearchBloc _searchBloc;
-  late final StreamSubscription _searchBlocSubscription;
+  final LocationBloc _locationBloc;
+  late final StreamSubscription _locationBlocSubscription;
 
   ForecastCubit(
     this._forecastRepository,
-    this._searchBloc,
+    this._locationBloc,
   ) : super(ForecastInitial()) {
-    _searchBlocSubscription = _searchBloc.stream.listen(
+    _locationBlocSubscription = _locationBloc.stream.listen(
       (state) {
-        //debugPrint(state.toString());
         if (state is LocationLoaded) {
           getForecast(lat: state.location.lat!, lon: state.location.lon!);
         }
@@ -43,7 +39,7 @@ class ForecastCubit extends Cubit<ForecastState> {
 
   @override
   Future<void> close() {
-    _searchBlocSubscription.cancel();
+    _locationBlocSubscription.cancel();
     return super.close();
   }
 }

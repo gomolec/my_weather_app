@@ -19,33 +19,24 @@ class TimeButtons extends StatelessWidget {
           onPressed: () {},
           child: Text(
             timeBefore,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.caption,
           ),
         ),
         TextButton(
           onPressed: () {},
-          child: const Text(
+          child: Text(
             "now",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         TextButton(
           onPressed: () {},
           child: Text(
             timeAfter,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.caption,
           ),
         ),
       ],

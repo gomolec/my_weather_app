@@ -1,27 +1,27 @@
-part of 'search_bloc.dart';
+part of 'location_bloc.dart';
 
-abstract class SearchState extends Equatable {
-  const SearchState();
+abstract class LocationState extends Equatable {
+  const LocationState();
 
   @override
   List<Object?> get props => [];
 }
 
-class LocationInitial extends SearchState {
+class LocationInitial extends LocationState {
   const LocationInitial();
 
   @override
   List<Object?> get props => [];
 }
 
-class LocationLocating extends SearchState {
+class LocationLocating extends LocationState {
   const LocationLocating();
 
   @override
   List<Object?> get props => [];
 }
 
-class LocationQuerried extends SearchState {
+class LocationQuerried extends LocationState {
   final List<Location> responce;
 
   const LocationQuerried({
@@ -32,7 +32,7 @@ class LocationQuerried extends SearchState {
   List<Object?> get props => [responce];
 }
 
-class LocationLoaded extends SearchState {
+class LocationLoaded extends LocationState {
   final Location location;
 
   const LocationLoaded({
@@ -43,7 +43,7 @@ class LocationLoaded extends SearchState {
   List<Object?> get props => [location];
 }
 
-class LocationError extends SearchState {
+class LocationError extends LocationState {
   final String error;
 
   const LocationError({

@@ -35,11 +35,7 @@ class DetailsTableTile extends StatelessWidget {
                     const SizedBox(width: 8.0),
                     Text(
                       title,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
                 ),
@@ -52,11 +48,7 @@ class DetailsTableTile extends StatelessWidget {
                     const SizedBox(width: 8.0),
                     Text(
                       value,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ],
                 ),
@@ -64,7 +56,6 @@ class DetailsTableTile extends StatelessWidget {
             ),
           ),
           const Divider(
-            color: Colors.black,
             height: 1.0,
             thickness: 1.0,
           ),
