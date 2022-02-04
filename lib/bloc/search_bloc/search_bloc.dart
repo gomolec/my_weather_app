@@ -15,7 +15,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   SearchBloc(
     this._locationRepository,
-  ) : super(const SearchState()) {
+  ) : super(const LocationInitial()) {
     on<SearchLocationQueried>(_onSearchLocationQueried);
     on<SearchGeolocationStarted>(_onSearchGeolocationStarted);
     on<SearchLocationSubmitted>(_onSearchLocationSubmitted);
@@ -26,26 +26,26 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       final List<Location> responce =
           await _locationRepository.getNamedLocation(q: event.querry);
-      emit(state.copyWith(responce: responce));
+      emit(LocationQuerried(responce: responce));
     } catch (error) {
-      debugPrint("$error");
-      emit(state.copyWith(error: error.toString()));
+      debugPrint("Error: $error");
+      emit(LocationError(error: error.toString()));
     }
   }
 
   void _onSearchGeolocationStarted(
       SearchGeolocationStarted event, Emitter<SearchState> emit) async {
+    emit(const LocationLocating());
     try {
       final Position geolocation = await _determinePosition();
       final Location responce = await _locationRepository.getGeocodedLocation(
         lat: geolocation.latitude,
         lon: geolocation.longitude,
       );
-      debugPrint(responce.toString());
       emit(LocationLoaded(location: responce));
     } catch (error) {
       debugPrint("Error: $error");
-      emit(state.copyWith(error: error.toString()));
+      emit(LocationError(error: error.toString()));
     }
   }
 

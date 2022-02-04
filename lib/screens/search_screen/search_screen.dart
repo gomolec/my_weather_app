@@ -24,7 +24,7 @@ class SearchScreen extends StatelessWidget {
             ),
             BlocBuilder<SearchBloc, SearchState>(
               builder: (context, state) {
-                if (state.responce.isNotEmpty) {
+                if (state is LocationQuerried) {
                   return ListView.builder(
                     shrinkWrap: true,
                     itemCount: state.responce.length,

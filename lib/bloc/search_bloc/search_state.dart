@@ -1,26 +1,35 @@
 part of 'search_bloc.dart';
 
-class SearchState extends Equatable {
-  final String? error;
-  final List<Location> responce;
-
-  const SearchState({
-    this.error,
-    this.responce = const [],
-  });
-
-  SearchState copyWith({
-    String? error,
-    List<Location>? responce,
-  }) {
-    return SearchState(
-      error: error ?? this.error,
-      responce: responce ?? this.responce,
-    );
-  }
+abstract class SearchState extends Equatable {
+  const SearchState();
 
   @override
-  List<Object?> get props => [error, responce];
+  List<Object?> get props => [];
+}
+
+class LocationInitial extends SearchState {
+  const LocationInitial();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LocationLocating extends SearchState {
+  const LocationLocating();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LocationQuerried extends SearchState {
+  final List<Location> responce;
+
+  const LocationQuerried({
+    required this.responce,
+  });
+
+  @override
+  List<Object?> get props => [responce];
 }
 
 class LocationLoaded extends SearchState {
@@ -32,4 +41,15 @@ class LocationLoaded extends SearchState {
 
   @override
   List<Object?> get props => [location];
+}
+
+class LocationError extends SearchState {
+  final String error;
+
+  const LocationError({
+    required this.error,
+  });
+
+  @override
+  List<Object?> get props => [error];
 }
