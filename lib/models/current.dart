@@ -86,7 +86,8 @@ class Current extends Equatable {
 
   factory Current.fromMap(Map<String, dynamic>? map) {
     return Current(
-      dt: DateTime.fromMillisecondsSinceEpoch(map?['dt']?.toInt() * 1000),
+      dt: DateTime.fromMillisecondsSinceEpoch(map?['dt']?.toInt() * 1000)
+          .toLocal(),
       sunrise:
           DateTime.fromMillisecondsSinceEpoch(map?['sunrise']?.toInt() * 1000),
       sunset:
@@ -113,7 +114,7 @@ class Current extends Equatable {
     );
   }
 
-  factory Current.fromJson(String source) =>
+  factory Current.fromJson(String source, {required int timezoneOffset}) =>
       Current.fromMap(json.decode(source));
 
   @override

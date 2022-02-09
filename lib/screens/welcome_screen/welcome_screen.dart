@@ -1,81 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_weather_app/bloc/bloc/search_bloc.dart';
+import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
+import 'package:my_weather_app/theme.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFB9A8A1),
-      extendBodyBehindAppBar: true,
-      // appBar: PreferredSize(
-      //   preferredSize: const Size.fromHeight(96),
-      //   child: AppBar(
-      //     systemOverlayStyle:
-      //         const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      //     backgroundColor: Colors.transparent,
-      //     elevation: 0,
-      //   ),
-      // ),
-      body: Column(
-        children: [
-          Flexible(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              child: const WelcomeText(),
+    return BlocListener<LocationBloc, LocationState>(
+      listener: (context, state) {
+        if (state is LocationLoaded) {
+          Navigator.pushReplacementNamed(context, '/home_screen');
+        }
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        // appBar: PreferredSize(
+        //   preferredSize: const Size.fromHeight(96),
+        //   child: AppBar(
+        //     systemOverlayStyle:
+        //         const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+        //     backgroundColor: Colors.transparent,
+        //     elevation: 0,
+        //   ),
+        // ),
+        body: Column(
+          children: [
+            Flexible(
+              flex: 2,
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                child: const WelcomeText(),
+              ),
             ),
-          ),
-          Flexible(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton(
-                  onPressed: () {
-                    context
-                        .read<SearchBloc>()
-                        .add(const SearchGeolocationStarted());
-                  },
-                  child: const Text(
-                    'Turn on Location',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF3C3A3A),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton(
+                    onPressed: () {
+                      context
+                          .read<LocationBloc>()
+                          .add(const GeolocationStarted());
+                    },
+                    child: Text(
+                      'Turn on Location',
+                      style: Theme.of(context).textTheme.button,
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      side: const BorderSide(
+                        color: Color(0xFF3C3A3A),
+                        width: 3.0,
+                      ),
+                      fixedSize: const Size(200, 48),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    shape: const StadiumBorder(),
-                    side: const BorderSide(
-                      color: Color(0xFF3C3A3A),
-                      width: 3.0,
+                  const SizedBox(height: 8),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/search_screen');
+                    },
+                    child: Text(
+                      'Select a city',
+                      style: Theme.of(context).textTheme.button,
                     ),
-                    fixedSize: const Size(200, 48),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/search_screen');
-                  },
-                  child: const Text(
-                    'Select a city',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF3C3A3A),
+                    style: TextButton.styleFrom(
+                      fixedSize: const Size(200, 48),
                     ),
                   ),
-                  style: TextButton.styleFrom(
-                    fixedSize: const Size(200, 48),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -89,38 +88,30 @@ class WelcomeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CustomSun(color: const Color(0xFFE0ACA3)),
+      painter: CustomSun(color: CustomTheme.defaultAccent),
       child: SizedBox(
         height: 310,
         width: 310,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.end,
-          children: const [
+          children: [
             Text(
               "Welcome to your Weather App",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF3C3A3A),
-              ),
+              style: Theme.of(context).textTheme.headline4,
               softWrap: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
             Text(
               "Turn on location to receive the weather forecast for your city",
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF3C3A3A),
-              ),
+              style: Theme.of(context).textTheme.subtitle2,
               softWrap: true,
             ),
-            SizedBox(
+            const SizedBox(
               height: 48,
             ),
           ],

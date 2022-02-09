@@ -2,58 +2,54 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
-
 import 'package:my_weather_app/models/location.dart';
 import 'package:my_weather_app/repositories/location_repository.dart';
 
-part 'search_event.dart';
-part 'search_state.dart';
+part 'location_event.dart';
+part 'location_state.dart';
 
-class SearchBloc extends Bloc<SearchEvent, SearchState> {
+class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationRepository _locationRepository;
 
-  SearchBloc(
+  LocationBloc(
     this._locationRepository,
-  ) : super(const SearchState()) {
-    on<SearchLocationQueried>(_onSearchLocationQueried);
-    on<SearchGeolocationStarted>(_onSearchGeolocationStarted);
-    on<SearchLocationSubmitted>(_onSearchLocationSubmitted);
+  ) : super(const LocationInitial()) {
+    on<LocationQueried>(_onSearchLocationQueried);
+    on<GeolocationStarted>(_onSearchGeolocationStarted);
+    on<LocationSubmitted>(_onSearchLocationSubmitted);
   }
 
   void _onSearchLocationQueried(
-      SearchLocationQueried event, Emitter<SearchState> emit) async {
+      LocationQueried event, Emitter<LocationState> emit) async {
     try {
       final List<Location> responce =
           await _locationRepository.getNamedLocation(q: event.querry);
-      emit(state.copyWith(responce: responce));
+      emit(LocationQuerried(responce: responce));
     } catch (error) {
-      debugPrint("$error");
-      emit(state.copyWith(error: error.toString()));
+      debugPrint("Error: $error");
+      emit(LocationError(error: error.toString()));
     }
   }
 
   void _onSearchGeolocationStarted(
-      SearchGeolocationStarted event, Emitter<SearchState> emit) async {
+      GeolocationStarted event, Emitter<LocationState> emit) async {
+    emit(const LocationLocating());
     try {
       final Position geolocation = await _determinePosition();
       final Location responce = await _locationRepository.getGeocodedLocation(
         lat: geolocation.latitude,
         lon: geolocation.longitude,
       );
-      debugPrint(responce.toString());
+      emit(LocationLoaded(location: responce));
     } catch (error) {
       debugPrint("Error: $error");
-      emit(state.copyWith(error: error.toString()));
+      emit(LocationError(error: error.toString()));
     }
   }
 
   void _onSearchLocationSubmitted(
-      SearchLocationSubmitted event, Emitter<SearchState> emit) async {
-    _submitLocation(event.location);
-  }
-
-  void _submitLocation(Location location) {
-    debugPrint(location.toString());
+      LocationSubmitted event, Emitter<LocationState> emit) async {
+    emit(LocationLoaded(location: event.location));
   }
 
   Future<Position> _determinePosition() async {

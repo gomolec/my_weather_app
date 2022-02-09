@@ -24,11 +24,7 @@ class ForecastTableTile extends StatelessWidget {
           Expanded(
             child: Text(
               weekDay.capitalize(),
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           Icon(
@@ -44,11 +40,7 @@ class ForecastTableTile extends StatelessWidget {
                   child: Text(
                     "${maxTemp.round()}°",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
                 const SizedBox(
@@ -59,11 +51,7 @@ class ForecastTableTile extends StatelessWidget {
                   child: Text(
                     "${minTemp.round()}°",
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                 ),
               ],

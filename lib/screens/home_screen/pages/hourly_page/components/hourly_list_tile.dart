@@ -30,11 +30,7 @@ class HourlyListTile extends StatelessWidget {
                   child: Center(
                     child: Text(
                       time,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
                 ),
@@ -43,11 +39,7 @@ class HourlyListTile extends StatelessWidget {
                   child: Center(
                     child: Text(
                       "${temp.round()}°",
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
                 ),
@@ -73,11 +65,7 @@ class HourlyListTile extends StatelessWidget {
                       Expanded(
                         child: Text(
                           "$humidity%",
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: Theme.of(context).textTheme.subtitle1,
                         ),
                       ),
                     ],
@@ -87,7 +75,6 @@ class HourlyListTile extends StatelessWidget {
             ),
           ),
           const Divider(
-            color: Colors.black,
             height: 1.0,
             thickness: 1.0,
           ),

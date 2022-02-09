@@ -21,19 +21,12 @@ class MainForecastText extends StatelessWidget {
         children: [
           Text(
             "${weekDay.capitalize()}. ${forecastText.capitalize()}",
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
+            style: Theme.of(context).textTheme.headline5,
           ),
           Text(
             "${temp.round()}°",
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 120,
-              fontWeight: FontWeight.w600,
-            ),
+            style:
+                Theme.of(context).textTheme.headline5!.copyWith(fontSize: 120),
           )
         ],
       ),

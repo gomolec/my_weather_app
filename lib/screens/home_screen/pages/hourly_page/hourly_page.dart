@@ -1,10 +1,15 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:my_weather_app/extensions.dart';
+import 'package:my_weather_app/models/hourly.dart';
 import 'components/components.dart';
 
 class HourlyPage extends StatelessWidget {
-  const HourlyPage({Key? key}) : super(key: key);
+  final List<Hourly> forecast;
+  const HourlyPage({
+    Key? key,
+    required this.forecast,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +18,11 @@ class HourlyPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 16.0),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: Text(
               "Hourly Forecast:",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
+              style: Theme.of(context).textTheme.headline5,
             ),
           ),
           Column(
@@ -29,19 +30,15 @@ class HourlyPage extends StatelessWidget {
               24,
               (index) => Builder(
                 builder: (context) {
-                  Random random = Random();
-                  double temp = (random.nextInt(45) - 15) + random.nextDouble();
-                  int humidity = random.nextInt(100);
-                  List<IconData> icons = [
-                    LineAwesomeIcons.cloud_with_rain,
-                    LineAwesomeIcons.sun,
-                    LineAwesomeIcons.lightning_bolt
-                  ];
+                  Hourly hourly = forecast[index];
                   return HourlyListTile(
-                    time: (index == 0) ? "Now" : "$index:00",
-                    temp: temp,
-                    icon: icons[random.nextInt(3)],
-                    humidity: humidity,
+                    time: (index == 0)
+                        ? "Now"
+                        : DateFormat('kk:mm')
+                            .format(hourly.dt ?? DateTime.now()),
+                    temp: hourly.temp ?? 0.0,
+                    icon: getIcon(hourly.weather.icon ?? ""),
+                    humidity: hourly.humidity ?? 0,
                   );
                 },
               ),

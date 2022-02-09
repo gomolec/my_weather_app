@@ -1,67 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:my_weather_app/models/current.dart';
 import 'dart:math' as math;
 import 'details_table_tile.dart';
 
 class DetailsTable extends StatelessWidget {
+  final Current forecast;
   const DetailsTable({
     Key? key,
+    required this.forecast,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const DetailsTableTile(
-          leadingIcon: LineAwesomeIcons.thermometer_full,
-          title: "High/Low",
-          value: "2°/-5°",
-        ),
+        // const DetailsTableTile(
+        //   leadingIcon: LineAwesomeIcons.thermometer_full,
+        //   title: "High/Low",
+        //   value: "2°/-5°",
+        // ),
         DetailsTableTile(
           leadingIcon: LineAwesomeIcons.wind,
           title: "Wind",
           optionalWidget: Transform.rotate(
-            angle: 45 * (math.pi / 180),
+            angle: forecast.windDeg! * (math.pi / 180),
             child: const Icon(
               LineAwesomeIcons.location_arrow,
               size: 20.0,
             ),
           ),
-          value: "5 km/h",
+          value: "${forecast.windSpeed.toString()} km/h",
         ),
-        const DetailsTableTile(
+        DetailsTableTile(
           leadingIcon: LineAwesomeIcons.water,
           title: "Humidity",
-          value: "88%",
+          value: "${forecast.humidity.toString()}%",
         ),
-        const DetailsTableTile(
+        DetailsTableTile(
           leadingIcon: LineAwesomeIcons.tint,
           title: "Dew Point",
-          value: "-3°",
+          value: "${forecast.dewPoint!.round().toString()}°",
         ),
-        const DetailsTableTile(
+        DetailsTableTile(
           leadingIcon: LineAwesomeIcons.alternate_compress_arrows,
           title: "Pressure",
-          optionalWidget: (false == true)
-              ? Icon(LineAwesomeIcons.arrow_up, size: 20.0)
-              : Icon(LineAwesomeIcons.arrow_down, size: 20.0),
-          value: "1006.1 mb",
+          optionalWidget: (forecast.pressure! >= 1000)
+              ? const Icon(LineAwesomeIcons.arrow_up, size: 20.0)
+              : const Icon(LineAwesomeIcons.arrow_down, size: 20.0),
+          value: "${forecast.pressure.toString()} mb",
         ),
-        const DetailsTableTile(
+        DetailsTableTile(
           leadingIcon: LineAwesomeIcons.sun,
           title: "UV Index",
-          value: "0 of 10",
+          value: "${forecast.uvi.toString()} of 10",
         ),
-        const DetailsTableTile(
+        DetailsTableTile(
           leadingIcon: LineAwesomeIcons.eye,
           title: "Visibility",
-          value: "4.67 km",
+          value: "${forecast.visibility.toString()} km",
         ),
-        const DetailsTableTile(
-          leadingIcon: LineAwesomeIcons.moon,
-          title: "Moon Phase",
-          value: "Waxing Crescent",
-        ),
+        // const DetailsTableTile(
+        //   leadingIcon: LineAwesomeIcons.moon,
+        //   title: "Moon Phase",
+        //   value: "Waxing Crescent",
+        // ),
       ],
     );
   }
