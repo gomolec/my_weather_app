@@ -45,14 +45,18 @@ class Forecast extends Equatable {
   }
 
   factory Forecast.fromMap(Map<String, dynamic>? map) {
+    print(map?['timezone_offset']?.toInt());
     return Forecast(
       lat: map?['lat']?.toDouble(),
       lon: map?['lon']?.toDouble(),
       timezone: map?['timezone']?.toString(),
       timezoneOffset: map?['timezone_offset']?.toInt(),
-      current: Current.fromMap(map?['current']),
-      hourly: List<Hourly>.from(map?['hourly']?.map((x) => Hourly.fromMap(x))),
-      daily: List<Daily>.from(map?['daily']?.map((x) => Daily.fromMap(x))),
+      current:
+          Current.fromMap(map?['current'], map?['timezone_offset']?.toInt()),
+      hourly: List<Hourly>.from(map?['hourly']
+          ?.map((x) => Hourly.fromMap(x, map['timezone_offset']?.toInt()))),
+      daily: List<Daily>.from(map?['daily']
+          ?.map((x) => Daily.fromMap(x, map['timezone_offset']?.toInt()))),
     );
   }
 

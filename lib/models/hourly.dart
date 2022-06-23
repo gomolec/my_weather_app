@@ -80,9 +80,10 @@ class Hourly extends Equatable {
     );
   }
 
-  factory Hourly.fromMap(Map<String, dynamic>? map) {
+  factory Hourly.fromMap(Map<String, dynamic>? map, int offset) {
     return Hourly(
-      dt: DateTime.fromMillisecondsSinceEpoch(map?['dt']?.toInt() * 1000),
+      dt: DateTime.fromMillisecondsSinceEpoch(
+          (map?['dt']?.toInt() + offset) * 1000),
       temp: map?['temp']?.toDouble(),
       feelsLike: map?['feels_like']?.toDouble(),
       pressure: map?['pressure']?.toInt(),
@@ -106,7 +107,8 @@ class Hourly extends Equatable {
     );
   }
 
-  factory Hourly.fromJson(String source) => Hourly.fromMap(json.decode(source));
+  factory Hourly.fromJson(String source) =>
+      Hourly.fromMap(json.decode(source), 0);
 
   @override
   String toString() {

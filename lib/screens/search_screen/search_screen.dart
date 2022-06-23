@@ -178,7 +178,7 @@ class SearchBar extends StatelessWidget {
                   onChanged: (value) {
                     context
                         .read<LocationBloc>()
-                        .add(LocationQueried(querry: value));
+                        .add(LocationQueried(query: value));
                   },
                   style: Theme.of(context).textTheme.subtitle1,
                   cursorColor: const Color(0xFF3C3A3A),

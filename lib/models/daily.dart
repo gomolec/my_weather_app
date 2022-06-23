@@ -96,17 +96,18 @@ class Daily extends Equatable {
     );
   }
 
-  factory Daily.fromMap(Map<String, dynamic>? map) {
+  factory Daily.fromMap(Map<String, dynamic>? map, int offset) {
     return Daily(
-      dt: DateTime.fromMillisecondsSinceEpoch(map?['dt']?.toInt() * 1000),
-      sunrise:
-          DateTime.fromMillisecondsSinceEpoch(map?['sunrise']?.toInt() * 1000),
-      sunset:
-          DateTime.fromMillisecondsSinceEpoch(map?['sunset']?.toInt() * 1000),
-      moonrise:
-          DateTime.fromMillisecondsSinceEpoch(map?['moonrise']?.toInt() * 1000),
-      moonset:
-          DateTime.fromMillisecondsSinceEpoch(map?['moonset']?.toInt() * 1000),
+      dt: DateTime.fromMillisecondsSinceEpoch(
+          (map?['dt']?.toInt() + offset) * 1000),
+      sunrise: DateTime.fromMillisecondsSinceEpoch(
+          (map?['sunrise']?.toInt() + offset) * 1000),
+      sunset: DateTime.fromMillisecondsSinceEpoch(
+          (map?['sunset']?.toInt() + offset) * 1000),
+      moonrise: DateTime.fromMillisecondsSinceEpoch(
+          (map?['moonrise']?.toInt() + offset) * 1000),
+      moonset: DateTime.fromMillisecondsSinceEpoch(
+          (map?['moonset']?.toInt() + offset) * 1000),
       moonPhase: map?['moon_phase']?.toDouble(),
       temp: Temp.fromMap(map?['temp']),
       feelsLike: FeelsLike.fromMap(map?['feels_like']),
@@ -126,7 +127,8 @@ class Daily extends Equatable {
     );
   }
 
-  factory Daily.fromJson(String source) => Daily.fromMap(json.decode(source));
+  factory Daily.fromJson(String source) =>
+      Daily.fromMap(json.decode(source), 0);
 
   @override
   String toString() {

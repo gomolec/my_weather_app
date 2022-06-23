@@ -10,21 +10,21 @@ class LocationRepository {
 
   Future<Location> getGeocodedLocation(
       {required double lat, required double lon, String lang = "en"}) async {
-    const String _url = 'api.openweathermap.org';
-    const String _path = '/geo/1.0/reverse';
-    const String _limit = "1";
+    const String url = 'api.openweathermap.org';
+    const String path = '/geo/1.0/reverse';
+    const String limit = "1";
 
-    final _queryParameters = {
+    final queryParameters = {
       "lat": lat.toString(),
       "lon": lon.toString(),
-      "limit:": _limit,
+      "limit:": limit,
       "appid": _appid,
     };
 
-    final Uri _uri = Uri.http(_url, _path, _queryParameters);
+    final Uri uri = Uri.http(url, path, queryParameters);
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       switch (response.statusCode) {
         case 200:
           final String jsonData = response.body;
@@ -60,19 +60,19 @@ class LocationRepository {
 
   Future<List<Location>> getNamedLocation(
       {required String q, int limit = 3, String lang = "en"}) async {
-    const String _url = 'api.openweathermap.org';
-    const String _path = '/geo/1.0/direct';
+    const String url = 'api.openweathermap.org';
+    const String path = '/geo/1.0/direct';
 
-    final _queryParameters = {
+    final queryParameters = {
       "q": q.toLowerCase(),
       "limit": limit.toString(),
       "appid": _appid,
     };
 
-    final Uri _uri = Uri.http(_url, _path, _queryParameters);
+    final Uri uri = Uri.http(url, path, queryParameters);
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       switch (response.statusCode) {
         case 200:
           final String jsonData = response.body;

@@ -15,14 +15,14 @@ class GeolocationStarted extends LocationEvent {
 }
 
 class LocationQueried extends LocationEvent {
-  final String querry;
+  final String query;
 
   const LocationQueried({
-    required this.querry,
+    required this.query,
   });
 
   @override
-  List<Object> get props => [querry];
+  List<Object> get props => [query];
 }
 
 class LocationSubmitted extends LocationEvent {

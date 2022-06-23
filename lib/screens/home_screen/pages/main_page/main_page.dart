@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_weather_app/extensions.dart';
-import 'package:my_weather_app/models/forecast.dart';
 import 'package:my_weather_app/models/models.dart';
 import 'components/components.dart';
 
@@ -19,9 +19,12 @@ class MainPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const TimeButtons(
-            timeAfter: '10:00',
-            timeBefore: '18:00',
+          Text(
+            DateFormat('dd MMMM yyyy, hh:mm').format(forecast.current.dt!),
+            style: Theme.of(context)
+                .textTheme
+                .caption!
+                .copyWith(fontWeight: FontWeight.w600),
           ),
           MainForecastText(
             weekDay: forecast.current.dt!.getWeekdayString(),

@@ -44,10 +44,6 @@ class WelcomeScreen extends StatelessWidget {
                           .read<LocationBloc>()
                           .add(const GeolocationStarted());
                     },
-                    child: Text(
-                      'Turn on Location',
-                      style: Theme.of(context).textTheme.button,
-                    ),
                     style: OutlinedButton.styleFrom(
                       shape: const StadiumBorder(),
                       side: const BorderSide(
@@ -56,18 +52,22 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       fixedSize: const Size(200, 48),
                     ),
+                    child: Text(
+                      'Turn on Location',
+                      style: Theme.of(context).textTheme.button,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/search_screen');
                     },
+                    style: TextButton.styleFrom(
+                      fixedSize: const Size(200, 48),
+                    ),
                     child: Text(
                       'Select a city',
                       style: Theme.of(context).textTheme.button,
-                    ),
-                    style: TextButton.styleFrom(
-                      fixedSize: const Size(200, 48),
                     ),
                   ),
                 ],
@@ -88,7 +88,7 @@ class WelcomeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CustomSun(color: CustomTheme.defaultAccent),
+      painter: CustomSun(color: Theme.of(context).colorScheme.secondary),
       child: SizedBox(
         height: 310,
         width: 310,

@@ -23,7 +23,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       LocationQueried event, Emitter<LocationState> emit) async {
     try {
       final List<Location> responce =
-          await _locationRepository.getNamedLocation(q: event.querry);
+          await _locationRepository.getNamedLocation(q: event.query);
       emit(LocationQuerried(responce: responce));
     } catch (error) {
       debugPrint("Error: $error");

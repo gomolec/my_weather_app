@@ -46,13 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 500,
                 width: 300,
                 child: CustomPaint(
-                  painter: CustomSun(color: CustomTheme.defaultAccent),
+                  painter:
+                      CustomSun(color: Theme.of(context).colorScheme.secondary),
                 ),
               ),
               BlocBuilder<ForecastCubit, ForecastState>(
                 builder: (context, state) {
                   if (state is ForecastLoaded) {
-                    List<Widget> _pages = [
+                    List<Widget> pages = [
                       MainPage(forecast: state.forecast),
                       DetailsPage(forecast: state.forecast.current),
                       HourlyPage(forecast: state.forecast.hourly),
@@ -64,17 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPageChanged: (index) {
                               currentIndexPage.value = index;
                             },
-                            children: _pages,
+                            children: pages,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(4.0),
                           child: ValueListenableBuilder(
                             valueListenable: currentIndexPage,
-                            builder: (context, int _currentIndexPage, child) {
+                            builder: (context, int currentIndexPage, child) {
                               return DotsIndicator(
-                                dotsCount: _pages.length,
-                                position: _currentIndexPage.toDouble(),
+                                dotsCount: pages.length,
+                                position: currentIndexPage.toDouble(),
                                 decorator: const DotsDecorator(
                                   activeColor: CustomTheme.onPrimary,
                                   color: Colors.transparent,
@@ -113,7 +114,9 @@ class CustomSun extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final Offset offset = Offset(size.height / 2, size.height / 2);
+    final Offset offset = Offset(size.width / 2, size.height * -0.5); // evening
+    //final Offset offset = Offset(size.width / 2, size.height * 1.25); // morning
+    //final Offset offset = Offset(size.width / 2, size.height / 2); // noon
     final double radius = size.height / 2;
     canvas.drawCircle(
       offset,

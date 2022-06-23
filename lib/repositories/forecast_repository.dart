@@ -12,23 +12,23 @@ class ForecastRepository {
       required double lon,
       String units = "metric",
       String lang = "en"}) async {
-    const String _url = 'api.openweathermap.org';
-    const String _path = '/data/2.5/onecall';
-    const String _exclude = "minutely,alerts";
+    const String url = 'api.openweathermap.org';
+    const String path = '/data/2.5/onecall';
+    const String exclude = "minutely,alerts";
 
-    final _queryParameters = {
+    final queryParameters = {
       "lat": lat.toString(),
       "lon": lon.toString(),
-      "exclude": _exclude,
+      "exclude": exclude,
       "units": units,
       "lang": lang,
       "appid": _appid,
     };
 
-    final Uri _uri = Uri.https(_url, _path, _queryParameters);
+    final Uri uri = Uri.https(url, path, queryParameters);
 
     try {
-      final response = await http.get(_uri);
+      final response = await http.get(uri);
       switch (response.statusCode) {
         case 200:
           final String jsonData = response.body;

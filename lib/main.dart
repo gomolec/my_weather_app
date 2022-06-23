@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_weather_app/bloc/forecast_cubit/forecast_cubit.dart';
 import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
+import 'package:my_weather_app/bloc/theme_cubit/theme_cubit.dart';
 import 'package:my_weather_app/repositories/forecast_repository.dart';
 import 'package:my_weather_app/repositories/location_repository.dart';
 import 'package:my_weather_app/screens/search_screen/search_screen.dart';
 import 'package:my_weather_app/screens/welcome_screen/welcome_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'screens/home_screen/home_screen.dart';
 import 'theme.dart';
@@ -33,16 +33,27 @@ class MyApp extends StatelessWidget {
           ),
           lazy: false,
         ),
+        BlocProvider(
+          create: (context) => ThemeCubit(
+            theme: CustomTheme(),
+            forecastCubit: context.read<ForecastCubit>(),
+          ),
+          lazy: false,
+        ),
       ],
-      child: MaterialApp(
-        theme: CustomTheme.base,
-        initialRoute: '/welcome_screen',
-        routes: {
-          '/welcome_screen': (context) => const WelcomeScreen(),
-          '/search_screen': (context) => const SearchScreen(),
-          '/home_screen': (context) => const HomeScreen(),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, ThemeState state) {
+          return MaterialApp(
+            theme: state.themeData,
+            initialRoute: '/welcome_screen',
+            routes: {
+              '/welcome_screen': (context) => const WelcomeScreen(),
+              '/search_screen': (context) => const SearchScreen(),
+              '/home_screen': (context) => const HomeScreen(),
+            },
+            title: 'Weather App',
+          );
         },
-        title: 'Weather App',
       ),
     );
   }
