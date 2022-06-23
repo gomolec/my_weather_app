@@ -14,13 +14,16 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
           Text(
-            DateFormat('dd MMMM yyyy, hh:mm').format(forecast.current.dt!),
+            DateFormat('dd MMMM yyyy, HH:mm').format(forecast.current.dt!),
             style: Theme.of(context)
                 .textTheme
                 .caption!

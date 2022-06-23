@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CustomTheme {
   static const Color morningPrimary = Color(0xFFFDF7E7);
-  static const Color moonPrimary = Color(0xFFE8D9D5);
+  static const Color noonPrimary = Color(0xFFE8D9D5);
   static const Color eveningPrimary = Color(0xFFD3C9DA);
 
   static const Color morningAccent = Color(0xFFFFCC59);
-  static const Color moonAccent = Color(0xFFE0ACA3);
+  static const Color noonAccent = Color(0xFFE0ACA3);
   static const Color eveningAccent = Color(0xFFF6B6B7);
 
   static const Color onPrimary = Color(0xFF3C3A3A);
@@ -81,43 +81,12 @@ class CustomTheme {
     bodyColor: onPrimary,
   );
 
-  static ThemeData get base {
-    return ThemeData(
-      primaryColor: moonPrimary,
-      backgroundColor: moonPrimary,
-      scaffoldBackgroundColor: moonPrimary,
-      colorScheme: const ColorScheme(
-        primary: moonPrimary,
-        primaryContainer: moonPrimary,
-        secondary: moonAccent,
-        secondaryContainer: moonAccent,
-        surface: moonPrimary,
-        background: moonPrimary,
-        error: onPrimary,
-        onPrimary: onPrimary,
-        onSecondary: onPrimary,
-        onSurface: onPrimary,
-        onBackground: onPrimary,
-        onError: onPrimary,
-        brightness: Brightness.light,
-      ),
-      textTheme: textTheme,
-      iconTheme: const IconThemeData(
-        color: onPrimary,
-      ),
-      appBarTheme: const AppBarTheme(
-        color: Colors.transparent,
-      ),
-      dividerColor: onPrimary,
-    );
-  }
-
   ThemeData get morning {
     return getTheme(primaryColor: morningPrimary, accentColor: morningAccent);
   }
 
-  ThemeData get moon {
-    return getTheme(primaryColor: moonPrimary, accentColor: moonAccent);
+  ThemeData get noon {
+    return getTheme(primaryColor: noonPrimary, accentColor: noonAccent);
   }
 
   ThemeData get evening {

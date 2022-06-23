@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+
+import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
+import 'package:my_weather_app/extensions.dart';
 import 'package:my_weather_app/models/location.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -28,9 +30,16 @@ class SearchScreen extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: state.responce.length,
                     itemBuilder: (context, index) {
-                      return LocationTile(
-                        location: state.responce[index],
-                        isFavorite: false,
+                      return SearchListTile(
+                        name: state.responce[index].name.toString(),
+                        state: state.responce[index].state.toString(),
+                        country: state.responce[index].country.toString(),
+                        isSearched: true,
+                        isFav: false,
+                        onTap: () {
+                          context.read<LocationBloc>().add(LocationSubmitted(
+                              location: state.responce[index]));
+                        },
                       );
                     },
                   );
@@ -65,34 +74,68 @@ class FavoriteLocations extends StatelessWidget {
             ),
           ),
         ),
-        const LocationTile(
-          location: Location(
-            name: "Warszawa",
-            lat: 15,
-            lon: 15,
-            country: "Polska",
-          ),
-          isFavorite: true,
-        ),
-        const LocationTile(
-          location: Location(
-            name: "Kraków",
-            lat: 15,
-            lon: 15,
-            country: "Polska",
-          ),
-          isFavorite: true,
-        ),
-        const LocationTile(
-          location: Location(
-            name: "Katowice",
-            lat: 15,
-            lon: 15,
-            country: "Polska",
-          ),
-          isFavorite: true,
-        ),
       ],
+    );
+  }
+}
+
+class SearchListTile extends StatelessWidget {
+  final bool isSearched;
+  final bool? isFav;
+  final void Function()? onTap;
+  final String? name;
+  final String? state;
+  final String? country;
+
+  const SearchListTile({
+    Key? key,
+    this.isSearched = false,
+    this.isFav,
+    this.onTap,
+    this.name,
+    this.state,
+    this.country,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: isSearched == true
+          ? const Icon(
+              LineAwesomeIcons.map_signs,
+              size: 32,
+            )
+          : null,
+      title: name != null
+          ? Text(
+              name!.capitalize(),
+              style: Theme.of(context).textTheme.headline6,
+            )
+          : null,
+      subtitle: (country != null || state != null)
+          ? Text(
+              (() {
+                String text = "";
+                if (state != null) text += state!;
+                if (country != null && state != null) text += ", ";
+                if (country != null) text += country!;
+                return text;
+              }()),
+              style: Theme.of(context).textTheme.subtitle2,
+            )
+          : null,
+      trailing: isFav != null
+          ? IconButton(
+              onPressed: () {},
+              icon: Icon(
+                isFav == true
+                    ? LineAwesomeIcons.heart_1
+                    : LineAwesomeIcons.heart,
+                size: 24,
+              ),
+            )
+          : null,
+      onTap: onTap,
     );
   }
 }
@@ -143,7 +186,7 @@ class LocationTile extends StatelessWidget {
                       isFavorite
                           ? LineAwesomeIcons.heart_1
                           : LineAwesomeIcons.heart,
-                      size: 32,
+                      size: 24,
                     ),
                   ),
                 ],
@@ -159,10 +202,31 @@ class LocationTile extends StatelessWidget {
   }
 }
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
   const SearchBar({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
+  late TextEditingController _controller;
+  late bool isEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    isEmpty = true;
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -173,12 +237,29 @@ class SearchBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  LineAwesomeIcons.search,
+                  size: 28,
+                ),
+              ),
               Expanded(
                 child: TextField(
+                  controller: _controller,
                   onChanged: (value) {
                     context
                         .read<LocationBloc>()
                         .add(LocationQueried(query: value));
+                    if (value.isEmpty && isEmpty == false) {
+                      setState(() {
+                        isEmpty = true;
+                      });
+                    } else if (value.isNotEmpty && isEmpty == true) {
+                      setState(() {
+                        isEmpty = false;
+                      });
+                    }
                   },
                   style: Theme.of(context).textTheme.subtitle1,
                   cursorColor: const Color(0xFF3C3A3A),
@@ -188,13 +269,30 @@ class SearchBar extends StatelessWidget {
                   ),
                 ),
               ),
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  LineAwesomeIcons.search,
-                  size: 32,
-                ),
-              ),
+              isEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        context
+                            .read<LocationBloc>()
+                            .add(const GeolocationStarted());
+                      },
+                      icon: const Icon(
+                        LineAwesomeIcons.map_marker,
+                        size: 28,
+                      ),
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _controller.clear();
+                          isEmpty = true;
+                        });
+                      },
+                      icon: const Icon(
+                        LineAwesomeIcons.times,
+                        size: 28,
+                      ),
+                    ),
             ],
           ),
           const Divider(

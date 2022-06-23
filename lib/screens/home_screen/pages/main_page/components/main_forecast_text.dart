@@ -22,6 +22,8 @@ class MainForecastText extends StatelessWidget {
           Text(
             "${weekDay.capitalize()}. ${forecastText.capitalize()}",
             style: Theme.of(context).textTheme.headline5,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
           ),
           Text(
             "${temp.round()}°",

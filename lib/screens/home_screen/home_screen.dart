@@ -1,11 +1,13 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:my_weather_app/bloc/forecast_cubit/forecast_cubit.dart';
 import 'package:my_weather_app/bloc/search_bloc/location_bloc.dart';
+import 'package:my_weather_app/bloc/theme_cubit/theme_cubit.dart';
 import 'package:my_weather_app/extensions.dart';
-
 import 'package:my_weather_app/screens/home_screen/widgets/app_bar.dart';
+import 'package:my_weather_app/screens/home_screen/widgets/sun_custom_painter.dart';
 import 'package:my_weather_app/theme.dart';
 
 import 'pages/pages.dart';
@@ -45,9 +47,15 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 500,
                 width: 300,
-                child: CustomPaint(
-                  painter:
-                      CustomSun(color: Theme.of(context).colorScheme.secondary),
+                child: BlocBuilder<ThemeCubit, ThemeState>(
+                  builder: (context, state) {
+                    return CustomPaint(
+                      painter: CustomSun(
+                        color: Theme.of(context).colorScheme.secondary,
+                        type: state.type,
+                      ),
+                    );
+                  },
                 ),
               ),
               BlocBuilder<ForecastCubit, ForecastState>(
@@ -103,32 +111,4 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-}
-
-class CustomSun extends CustomPainter {
-  final Color color;
-
-  CustomSun({
-    required this.color,
-  });
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Offset offset = Offset(size.width / 2, size.height * -0.5); // evening
-    //final Offset offset = Offset(size.width / 2, size.height * 1.25); // morning
-    //final Offset offset = Offset(size.width / 2, size.height / 2); // noon
-    final double radius = size.height / 2;
-    canvas.drawCircle(
-      offset,
-      radius,
-      Paint()
-        ..color = color
-        ..style = PaintingStyle.fill,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomSun oldDelegate) => false;
-  @override
-  bool shouldRebuildSemantics(CustomSun oldDelegate) => false;
 }

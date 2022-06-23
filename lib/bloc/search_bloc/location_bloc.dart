@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_weather_app/models/location.dart';
 import 'package:my_weather_app/repositories/location_repository.dart';
 
@@ -10,13 +11,27 @@ part 'location_state.dart';
 
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final LocationRepository _locationRepository;
+  late Box savedLocationBox;
 
   LocationBloc(
     this._locationRepository,
   ) : super(const LocationInitial()) {
+    on<LocationInitialEvent>(_onInitialLocationEvent);
     on<LocationQueried>(_onSearchLocationQueried);
     on<GeolocationStarted>(_onSearchGeolocationStarted);
     on<LocationSubmitted>(_onSearchLocationSubmitted);
+  }
+
+  void _onInitialLocationEvent(
+    LocationInitialEvent event,
+    Emitter<LocationState> emit,
+  ) async {
+    savedLocationBox = await Hive.openBox("savedLocationBox");
+    final Location? savedLocation = savedLocationBox.get("savedLocation");
+
+    if (savedLocation != null) {
+      emit(LocationLoaded(location: savedLocation));
+    }
   }
 
   void _onSearchLocationQueried(
@@ -40,6 +55,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
         lat: geolocation.latitude,
         lon: geolocation.longitude,
       );
+      savedLocationBox.put("savedLocation", responce);
       emit(LocationLoaded(location: responce));
     } catch (error) {
       debugPrint("Error: $error");
@@ -49,6 +65,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
   void _onSearchLocationSubmitted(
       LocationSubmitted event, Emitter<LocationState> emit) async {
+    savedLocationBox.put("savedLocation", event.location);
     emit(LocationLoaded(location: event.location));
   }
 

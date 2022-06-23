@@ -7,6 +7,13 @@ abstract class LocationEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class LocationInitialEvent extends LocationEvent {
+  const LocationInitialEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
 class GeolocationStarted extends LocationEvent {
   const GeolocationStarted();
 

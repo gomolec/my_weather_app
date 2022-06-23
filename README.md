@@ -1,16 +1,31 @@
-# my_weather_app
 
-A new Flutter project.
+# My Weather App
 
-## Getting Started
+My Weather App to aplikacja służąca do sprawdzania pogody. Została wykonana w samodzielnie przeze mnie, używając API OpenWeatherMap i inspirując się designem aplikacji użytkownika dribble.com - Sergey Gurov (https://dribbble.com/shots/3735400-Weather-App).
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![App Screenshot](readme_assets/screenshot1.png)
+![App Screenshot](readme_assets/screenshot2.png)
+![App Screenshot](readme_assets/screenshot3.png)
+![App Screenshot](readme_assets/screenshot4.png)
+![App Screenshot](readme_assets/screenshot5.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Features
+
+- Podgląd aktualnej, szczegółowej i godzinowej pogody
+- Zamiana jednostek Celsjusza i Fahrenheita
+- Możliwość zlokalizowania miejscowości użytkownika do ustalenia pogody
+- Wyszukiwarka miejscowości z zakładką "Ostatnio wyszukiwane" oraz możliwością dodawania lokacji do ulubionych
+- Zapisywanie ostatnio przeglądanej miejscowości, ostatnich wyszukiwań i ulubionych
+
+
+## Tech Stack (packages)
+
+ - **Pobieranie danych z API** - Http (https://pub.dev/packages/html)
+ - **State managment** - Flutter Bloc (https://pub.dev/packages/flutter_bloc)
+ - **Zapisywanie danych lokalnie** - Hive (https://pub.dev/packages/hive)
+ - Equatable, Geolocator, Intl
+ - Google Fonts, Line Awesome Icons, Flutter Painter

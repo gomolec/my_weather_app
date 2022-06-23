@@ -18,7 +18,7 @@ class ForecastCubit extends Cubit<ForecastState> {
   ) : super(ForecastInitial()) {
     _locationBlocSubscription = _locationBloc.stream.listen(
       (state) {
-        if (state is LocationLoaded) {
+        if (state is LocationLoaded && this.state is! ForecastLoading) {
           getForecast(lat: state.location.lat!, lon: state.location.lon!);
         }
       },

@@ -45,7 +45,6 @@ class Forecast extends Equatable {
   }
 
   factory Forecast.fromMap(Map<String, dynamic>? map) {
-    print(map?['timezone_offset']?.toInt());
     return Forecast(
       lat: map?['lat']?.toDouble(),
       lon: map?['lon']?.toDouble(),

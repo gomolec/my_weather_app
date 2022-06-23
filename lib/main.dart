@@ -8,10 +8,17 @@ import 'package:my_weather_app/repositories/location_repository.dart';
 import 'package:my_weather_app/screens/search_screen/search_screen.dart';
 import 'package:my_weather_app/screens/welcome_screen/welcome_screen.dart';
 
+import 'models/location.dart';
 import 'screens/home_screen/home_screen.dart';
 import 'theme.dart';
 
-void main() => runApp(const MyApp());
+import 'package:hive_flutter/hive_flutter.dart';
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(LocationAdapter());
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -23,7 +30,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => LocationBloc(locationRepository),
+          create: (context) => LocationBloc(locationRepository)
+            ..add(const LocationInitialEvent()),
           lazy: false,
         ),
         BlocProvider(
