@@ -1,7 +1,7 @@
 
 # My Weather App
 
-My Weather App to aplikacja służąca do sprawdzania pogody. Została wykonana w samodzielnie przeze mnie, używając API OpenWeatherMap i inspirując się designem aplikacji użytkownika dribble.com - Sergey Gurov (https://dribbble.com/shots/3735400-Weather-App).
+My Weather App to aplikacja służąca do sprawdzania pogody. Została wykonana samodzielnie przeze mnie, używając API OpenWeatherMap i inspirując się designem użytkownika dribble.com - Sergey Gurov (https://dribbble.com/shots/3735400-Weather-App).
 
 
 ## Screenshots
