@@ -22,7 +22,7 @@ My Weather App to jedna z moich starszych aplikacji, służy do sprawdzania pogo
 ## Tech Stack (packages)
 
  - **Pobieranie danych z API** - [Http](https://pub.dev/packages/http)
- - **State managment** - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
+ - **State Management** - [Flutter Bloc](https://pub.dev/packages/flutter_bloc)
  - **Zapisywanie danych lokalnie** - [Hive](https://pub.dev/packages/hive)
  - Equatable, Geolocator, Intl
  - Google Fonts, Line Awesome Icons, Flutter Painter
